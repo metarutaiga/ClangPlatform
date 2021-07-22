@@ -53,6 +53,14 @@ extern "C" void WINAPI __dyn_tls_init(PVOID, DWORD dwReason, LPVOID)
 //------------------------------------------------------------------------------
 #if defined(_M_IX86)
 #pragma comment(linker, "/alternatename:__CxxThrowException@8=__CxxThrowException")
+#pragma comment(linker, "/alternatename:_atexit=__crt_atexit")
+#pragma comment(linker, "/alternatename:_setjmp=__setjmp3")
+#elif defined(_M_ARM)
+#pragma comment(linker, "/alternatename:atexit=_crt_atexit")
+#pragma comment(linker, "/alternatename:setjmp=__intrinsic_setjmp")
+#elif defined(_M_AMD64) || defined(_M_ARM64)
+#pragma comment(linker, "/alternatename:atexit=_crt_atexit")
+#pragma comment(linker, "/alternatename:setjmp=__intrinsic_setjmpex")
 #endif
 //------------------------------------------------------------------------------
 #ifndef _NO_DLLMAIN_

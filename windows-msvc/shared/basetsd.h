@@ -301,7 +301,7 @@ Ptr32ToPtr(
     const void * POINTER_32 p
     )
 {
-    return((void *) (ULONG_PTR) (unsigned long) p);
+    return((void *) (ULONG_PTR) (unsigned long) (ULONG_PTR) p);
 }
 
 __inline
@@ -310,7 +310,7 @@ Handle32ToHandle(
     const void * POINTER_32 h
     )
 {
-    return((void *) (LONG_PTR) (long) h);
+    return((void *) (LONG_PTR) (long) (ULONG_PTR) h);
 }
 
 __inline
