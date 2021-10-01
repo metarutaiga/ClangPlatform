@@ -57,6 +57,10 @@ int main(int argc, char* argv[])
     {
       continue;
     }
+    if (strstr(argv[i], "-lgcc"))
+    {
+      continue;
+    }
     args += argv[i];
     args += " ";
   }

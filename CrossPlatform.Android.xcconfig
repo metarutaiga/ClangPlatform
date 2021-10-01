@@ -20,7 +20,7 @@ HEADER_SEARCH_PATHS = $(inherited) /usr/local/opt/llvm/include/c++/v1
 
 OTHER_CFLAGS = $(inherited) -fdata-sections -ffunction-sections -fno-threadsafe-statics
 OTHER_CFLAGS = $(inherited) -fPIC -fsigned-char 
-OTHER_CFLAGS[arch=armv7] = $(inherited) -target arm-linux-androideabi --sysroot=$CLANG_PLATFORM_DIR/linux-android -march=armv7-a -mthumb -mfpu=neon
+OTHER_CFLAGS[arch=armv7] = $(inherited) -target arm-linux-androideabi --sysroot=$CLANG_PLATFORM_DIR/linux-android -march=armv7-a -mthumb -mfpu=neon -mhwdiv=arm,thumb
 OTHER_CFLAGS[arch=arm64] = $(inherited) -target aarch64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android
 OTHER_CFLAGS[arch=mips] = $(inherited) -target mipsel-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android
 OTHER_CFLAGS[arch=mips64] = $(inherited) -target mips64el-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android
@@ -32,13 +32,13 @@ OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS
 
 OTHER_LDFLAGS = $(inherited) -shared -fPIC -landroid -llog
 OTHER_LDFLAGS[config=Release] = $(inherited) -Wl,--gc-sections -Wl,--strip-all
-OTHER_LDFLAGS[arch=armv7] = $(inherited) -target arm-linux-androideabi --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-arm
+OTHER_LDFLAGS[arch=armv7] = $(inherited) -target arm-linux-androideabi --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-arm -lcompiler_rt
 OTHER_LDFLAGS[arch=arm64] = $(inherited) -target aarch64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-arm64
-OTHER_LDFLAGS[arch=mips] = $(inherited) -target mipsel-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-mips -Wl,-z,notext
+OTHER_LDFLAGS[arch=mips] = $(inherited) -target mipsel-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-mips -lcompiler_rt -Wl,-z,notext
 OTHER_LDFLAGS[arch=mips64] = $(inherited) -target mips64el-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-mips64
-OTHER_LDFLAGS[arch=riscv32] = $(inherited) -target riscv32-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-riscv32 
+OTHER_LDFLAGS[arch=riscv32] = $(inherited) -target riscv32-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-riscv32 -lcompiler_rt
 OTHER_LDFLAGS[arch=riscv64] = $(inherited) -target riscv64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-riscv64
-OTHER_LDFLAGS[arch=i686] = $(inherited) -target i686-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-x86
+OTHER_LDFLAGS[arch=i686] = $(inherited) -target i686-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-x86 -lcompiler_rt
 OTHER_LDFLAGS[arch=x86_64] = $(inherited) -target x86_64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-x86_64
 
 ARCHS = armv7 arm64 mips mips64 riscv32 riscv64 i686 x86_64
