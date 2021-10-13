@@ -1,4 +1,4 @@
-//===----------------------- functional.cpp -------------------------------===//
+//===------------------------- format.cpp ---------------------------------===//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -6,20 +6,14 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "functional"
+#include "format"
 
 _LIBCPP_BEGIN_NAMESPACE_STD
 
-#ifdef _LIBCPP_ABI_BAD_FUNCTION_CALL_KEY_FUNCTION
-bad_function_call::~bad_function_call() noexcept
-{
-}
+#if _LIBCPP_STD_VER > 17
 
-const char*
-bad_function_call::what() const noexcept
-{
-    return "std::bad_function_call";
-}
-#endif
+format_error::~format_error() noexcept = default;
+
+#endif //_LIBCPP_STD_VER > 17
 
 _LIBCPP_END_NAMESPACE_STD

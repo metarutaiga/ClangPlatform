@@ -61,6 +61,14 @@ int main(int argc, char* argv[])
     {
       continue;
     }
+    if (strstr(argv[i], "libclang_rt.builtins"))
+    {
+      continue;
+    }
+    if (strstr(argv[i], "-l:libunwind.a"))
+    {
+      continue;
+    }
     args += argv[i];
     args += " ";
   }
