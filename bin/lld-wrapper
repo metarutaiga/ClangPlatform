@@ -1,0 +1,30 @@
+#!/bin/bash
+
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+ARGS=""
+while [[ $# > 0 ]] ; do
+    case $1 in
+        -filelist*)
+        while read -r line; do
+            ARGS=$ARGS" "$line
+        done < $2
+        shift ;;
+        *libclang_rt.builtins*)
+        ;;
+        -l:libunwind.a)
+        ;;
+        -no_deduplicate)
+        ;;
+        -reproducible)
+        ;;
+        *)
+        ARGS=$ARGS" "$1
+        ;;
+    esac
+    shift
+done
+
+echo $SCRIPTPATH/ld.lld $ARGS
+$SCRIPTPATH/ld.lld $ARGS
+exit $?

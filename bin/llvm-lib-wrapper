@@ -1,0 +1,35 @@
+#!/bin/bash
+
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+ARGS=""
+while [[ $# > 0 ]] ; do
+    case $1 in
+        -arch_only)
+        shift ;;
+        -D)
+        ;;
+        -filelist*)
+        while read -r line; do
+            ARGS=$ARGS" "$line
+        done < $2
+        shift ;;
+        -L*)
+        ;;
+        -o)
+        ARGS=$ARGS" -out:"$2
+        shift ;;
+        -static)
+        ;;
+        -syslibroot)
+        shift ;;
+        *)
+        ARGS=$ARGS" "$1
+        ;;
+    esac
+    shift
+done
+
+echo $SCRIPTPATH/llvm-lib $ARGS
+$SCRIPTPATH/llvm-lib $ARGS
+exit $?

@@ -120,17 +120,22 @@ extern "C" BOOL WINAPI _DllMainCRTStartup(HANDLE handle, DWORD reason, LPVOID pr
 //------------------------------------------------------------------------------
 #ifdef _HAVE_WINMAIN_
 extern "C" IMAGE_DOS_HEADER __ImageBase;
-extern "C" void wWinMainCRTStartup()
+extern "C" void WinMainCRTStartup()
 {
     _DllMainCRTStartup(NULL, DLL_PROCESS_ATTACH, NULL);
-    STARTUPINFOW startupInfo;
-    GetStartupInfoW(&startupInfo);
+    STARTUPINFOA startupInfo;
+    GetStartupInfoA(&startupInfo);
     int showWindowMode = startupInfo.dwFlags & STARTF_USESHOWWINDOW ? startupInfo.wShowWindow : SW_SHOWDEFAULT;
-    int result = wWinMain((HINSTANCE)&__ImageBase, NULL, GetCommandLineW(), showWindowMode);
+    int result = WinMain((HINSTANCE)&__ImageBase, NULL, GetCommandLineA(), showWindowMode);
     _DllMainCRTStartup(NULL, DLL_PROCESS_DETACH, NULL);
     TerminateProcess(GetCurrentProcess(), result);
 }
 #endif
+//------------------------------------------------------------------------------
+extern "C" void __std_terminate()
+{
+    exit(0);
+}
 //==============================================================================
 //  new / delete
 //==============================================================================
@@ -190,9 +195,8 @@ void operator delete[](void* ptr, size_t size, std::align_val_t) noexcept
 //------------------------------------------------------------------------------
 #if defined(_LIBCPP_VERSION) && !defined(_LIBCPP_BUILDING_LIBRARY)
 _LIBCPP_BEGIN_NAMESPACE_STD
-    template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS __basic_string_common<true>;
     template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS basic_string<char>;
-    template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS __vector_base_common<true>;
+    template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS basic_string<wchar_t>;
     __shared_count::~__shared_count() {}
     __shared_weak_count::~__shared_weak_count() {}
     void __shared_weak_count::__release_weak() _NOEXCEPT
