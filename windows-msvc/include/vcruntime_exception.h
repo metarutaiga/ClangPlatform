@@ -13,7 +13,7 @@
     #include <vcruntime_new.h>
 #endif
 
-#if _VCRT_COMPILER_PREPROCESSOR
+#if _VCRT_COMPILER_PREPROCESSOR && _HAS_EXCEPTIONS
 
 #pragma warning(push)
 #pragma warning(disable: _VCRUNTIME_DISABLED_WARNINGS)
@@ -149,4 +149,4 @@ public:
 #pragma pack(pop)
 
 #pragma warning(pop) // _VCRUNTIME_DISABLED_WARNINGS
-#endif // _VCRT_COMPILER_PREPROCESSOR
+#endif // _VCRT_COMPILER_PREPROCESSOR && _HAS_EXCEPTIONS

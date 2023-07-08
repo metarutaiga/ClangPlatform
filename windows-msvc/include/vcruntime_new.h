@@ -162,8 +162,9 @@ void __CRTDECL operator delete[](
 #pragma warning(disable: 4514) // 'operator new': unreferenced inline function has been removed
 #ifndef __PLACEMENT_NEW_INLINE
     #define __PLACEMENT_NEW_INLINE
-    _NODISCARD _Ret_notnull_ _Post_writable_byte_size_(_Size) _Post_satisfies_(return == _Where)
-    inline void* __CRTDECL operator new(size_t _Size, _Writable_bytes_(_Size) void* _Where) noexcept
+    _NODISCARD _MSVC_CONSTEXPR _Ret_notnull_ _Post_writable_byte_size_(_Size) _Post_satisfies_(return == _Where)
+    inline void* __CRTDECL operator new(size_t _Size,
+        _Writable_bytes_(_Size) void* _Where) noexcept
     {
         (void)_Size;
         return _Where;

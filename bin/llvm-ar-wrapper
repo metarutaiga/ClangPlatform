@@ -23,6 +23,10 @@ while [[ $# > 0 ]] ; do
         ;;
         -syslibroot)
         shift ;;
+        -V)
+        libtool -V
+        exit 0
+        ;;
         *)
         ARGS=$ARGS" "$1
         ;;

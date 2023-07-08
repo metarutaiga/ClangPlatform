@@ -22,7 +22,7 @@ _LIBCPP_CRT_FUNC terminate_handler __cdecl _get_terminate();
 
 typedef void (__cdecl* unexpected_handler)();
 unexpected_handler __cdecl set_unexpected(
-    unexpected_handler _NewUnexpectedHandler) throw();
+    unexpected_handler _NewUnexpectedHandler) noexcept;
 unexpected_handler __cdecl _get_unexpected() noexcept;
 
 int __cdecl __uncaught_exceptions();

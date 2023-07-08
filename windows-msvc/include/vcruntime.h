@@ -262,32 +262,49 @@ _CRT_BEGIN_C_HEADER
     #pragma comment(lib, "legacy_x86_flt_exceptions")
 #endif
 
-#if !defined(_HAS_CXX17) && !defined(_HAS_CXX20)
-    #if defined(_MSVC_LANG)
+#ifdef __cplusplus
+    #if defined(_MSVC_LANG) && _MSVC_LANG > __cplusplus
         #define _STL_LANG _MSVC_LANG
-    #elif defined(__cplusplus) // ^^^ use _MSVC_LANG / use __cplusplus vvv
+    #else  // ^^^ language mode is _MSVC_LANG / language mode is __cplusplus vvv
         #define _STL_LANG __cplusplus
-    #else  // ^^^ use __cplusplus / no C++ support vvv
-        #define _STL_LANG 0L
-    #endif // ^^^ no C++ support ^^^
+    #endif // ^^^ language mode is larger of _MSVC_LANG and __cplusplus ^^^
+#else  // ^^^ determine compiler's C++ mode / no C++ support vvv
+    #define _STL_LANG 0L
+#endif // ^^^ no C++ support ^^^
 
-    #if _STL_LANG > 201703L
+#ifndef _HAS_CXX17
+    #if _STL_LANG > 201402L
         #define _HAS_CXX17 1
-        #define _HAS_CXX20 1
-    #elif _STL_LANG > 201402L
-        #define _HAS_CXX17 1
-        #define _HAS_CXX20 0
-    #else // _STL_LANG <= 201402L
+    #else
         #define _HAS_CXX17 0
+    #endif
+#endif // _HAS_CXX17
+
+#ifndef _HAS_CXX20
+    #if _HAS_CXX17 && _STL_LANG > 201703L
+        #define _HAS_CXX20 1
+    #else
         #define _HAS_CXX20 0
-    #endif // Use the value of _STL_LANG to define _HAS_CXX17 and _HAS_CXX20
+    #endif
+#endif // _HAS_CXX20
 
-    #undef _STL_LANG
-#endif // !defined(_HAS_CXX17) && !defined(_HAS_CXX20)
+#ifndef _HAS_CXX23
+    #if _HAS_CXX20 && _STL_LANG > 202002L
+        #define _HAS_CXX23 1
+    #else
+        #define _HAS_CXX23 0
+    #endif
+#endif // _HAS_CXX23
 
-#if !defined(_HAS_CXX17) || !defined(_HAS_CXX20) || _HAS_CXX20 && !_HAS_CXX17
-    #error _HAS_CXX17 and _HAS_CXX20 must both be defined, and _HAS_CXX20 must imply _HAS_CXX17
-#endif // Verify _HAS_CXX17 and _HAS_CXX20
+#undef _STL_LANG
+
+#if _HAS_CXX20 && !_HAS_CXX17
+    #error _HAS_CXX20 must imply _HAS_CXX17.
+#endif
+
+#if _HAS_CXX23 && !_HAS_CXX20
+    #error _HAS_CXX23 must imply _HAS_CXX20.
+#endif
 
 // [[nodiscard]] attributes on STL functions
 #ifndef _HAS_NODISCARD
@@ -305,6 +322,24 @@ _CRT_BEGIN_C_HEADER
 #else // ^^^ CAN HAZ [[nodiscard]] / NO CAN HAZ [[nodiscard]] vvv
     #define _NODISCARD
 #endif // _HAS_NODISCARD
+
+#pragma push_macro("msvc")
+#pragma push_macro("constexpr")
+#undef msvc
+#undef constexpr
+
+// Determine if we should use [[msvc::constexpr]] to allow for "extended constexpr"
+// in Visual C++.
+#ifndef _MSVC_CONSTEXPR
+    #ifdef _MSVC_CONSTEXPR_ATTRIBUTE
+        #define _MSVC_CONSTEXPR [[msvc::constexpr]]
+    #else
+        #define _MSVC_CONSTEXPR
+    #endif
+#endif
+
+#pragma pop_macro("constexpr")
+#pragma pop_macro("msvc")
 
 // See note on use of "deprecate" at the top of this file
 #define _CRT_DEPRECATE_TEXT(_Text) __declspec(deprecated(_Text))

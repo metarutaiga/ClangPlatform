@@ -17,6 +17,8 @@
 
 #pragma pack(push, _CRT_PACKING)
 
+extern "C++" { // attach declarations to the global module, see N4910 [module.unit]/7
+
 #if defined _M_CEE_MIXED && !defined _VCRT_BUILD
     // Provide a fake definition of __type_info_node to suppress linker warning
     // LNK4248: unresolved typeref token for '__type_info_node'; image may not run.
@@ -31,6 +33,7 @@
     extern __type_info_node __type_info_root_node;
 #endif
 
+} // extern "C++"
 
 
 _CRT_BEGIN_C_HEADER
@@ -66,6 +69,7 @@ _CRT_END_C_HEADER
 
 #pragma warning(push)
 #pragma warning(disable: 4577) // 'noexcept' used with no exception handling mode specified
+extern "C++" { // attach declarations to the global module, see N4910 [module.unit]/7
 class type_info
 {
 public:
@@ -73,27 +77,40 @@ public:
     type_info(const type_info&) = delete;
     type_info& operator=(const type_info&) = delete;
 
-    size_t hash_code() const noexcept
+    _NODISCARD size_t hash_code() const noexcept
     {
         return __std_type_info_hash(&_Data);
     }
 
+    _NODISCARD
+#if _HAS_CXX23
+    constexpr
+#endif // _HAS_CXX23
     bool operator==(const type_info& _Other) const noexcept
     {
+#if _HAS_CXX23
+        if (__builtin_is_constant_evaluated())
+        {
+            return &_Data == &_Other._Data;
+        }
+#endif // _HAS_CXX23
+
         return __std_type_info_compare(&_Data, &_Other._Data) == 0;
     }
 
-    bool operator!=(const type_info& _Other) const noexcept
+#if !_HAS_CXX20
+    _NODISCARD bool operator!=(const type_info& _Other) const noexcept
     {
         return __std_type_info_compare(&_Data, &_Other._Data) != 0;
     }
+#endif // !_HAS_CXX20
 
-    bool before(const type_info& _Other) const noexcept
+    _NODISCARD bool before(const type_info& _Other) const noexcept
     {
         return __std_type_info_compare(&_Data, &_Other._Data) < 0;
     }
 
-    const char* name() const noexcept
+    _NODISCARD const char* name() const noexcept
     {
         #ifdef _M_CEE_PURE
         return __std_type_info_name(&_Data, static_cast<__type_info_node*>(__type_info_root_node.ToPointer()));
@@ -102,7 +119,7 @@ public:
         #endif
     }
 
-    const char* raw_name() const noexcept
+    _NODISCARD const char* raw_name() const noexcept
     {
         return _Data._DecoratedName;
     }
@@ -113,6 +130,7 @@ private:
 
     mutable __std_type_info_data _Data;
 };
+} // extern "C++"
 #pragma warning(pop)
 
 namespace std {
