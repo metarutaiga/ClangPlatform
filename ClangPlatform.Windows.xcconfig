@@ -33,7 +33,39 @@ LIBRARY_SEARCH_PATH[arch=x86] = $(inherited) -Wl,-libpath:$CLANG_PLATFORM_DIR/wi
 LIBRARY_SEARCH_PATH[arch=x86_64] = $(inherited) -Wl,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64/ucrt,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64/um
 LINK_DEBUG_PATH[config=Debug] = -Wl,-debug,-pdb:$(TARGET_BUILD_DIR)/$(PROJECT_NAME).pdb
 LINK_DEBUG_PATH[config=Release] = -Wl,-debug,-pdb:$(TARGET_BUILD_DIR)/$(PROJECT_NAME).pdb,-opt:ref,-opt:icf
-LINK_LIBRARY_NAME = -Wl,chkstk.obj,std_type_info_static.obj,ucrtbase.lib,oldnames.lib,kernel32.lib,user32.lib,winmm.lib,imm32.lib,gdi32.lib,dwmapi.lib
+LINK_LIBRARY_NAME[arch=arm] = $(inherited) -Wl,ucrtbase.lib
+LINK_LIBRARY_NAME[arch=arm64] = $(inherited) -Wl,ucrtbase.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-conio-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-convert-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-environment-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-filesystem-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-heap-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-locale-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-math-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-multibyte-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-private-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-process-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-runtime-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-stdio-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-string-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-time-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86] = $(inherited) -Wl,api-ms-win-crt-utility-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-conio-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-convert-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-environment-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-filesystem-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-heap-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-locale-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-math-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-multibyte-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-private-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-process-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-runtime-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-stdio-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-string-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-time-l1-1-0.lib
+LINK_LIBRARY_NAME[arch=x86_64] = $(inherited) -Wl,api-ms-win-crt-utility-l1-1-0.lib
+LINK_LIBRARY_NAME = $(inherited) -Wl,chkstk.obj,std_type_info_static.obj,oldnames.lib,kernel32.lib,user32.lib,winmm.lib,imm32.lib,gdi32.lib,dwmapi.lib
 
 OTHER_CFLAGS = $(inherited) -fdata-sections -ffunction-sections -fno-threadsafe-statics
 OTHER_CFLAGS = $(inherited) -g -gcodeview -GS- -D_CRT_USE_BUILTIN_OFFSETOF -D_LIBCPP_NO_AUTO_LINK -fms-compatibility-version=19

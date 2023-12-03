@@ -44,6 +44,9 @@ extern "C" __declspec(allocate(".CRT$XDZ")) const _PVFV __xd_z = 0;
 //------------------------------------------------------------------------------
 extern "C" void WINAPI __dyn_tls_init(PVOID, DWORD dwReason, LPVOID)
 {
+    if (dwReason != DLL_THREAD_ATTACH)
+        return;
+
     for (const _PVFV* pfunc = &__xd_a + 1; pfunc != &__xd_z; ++pfunc)
     {
         if (*pfunc)
@@ -76,24 +79,24 @@ extern "C" void WINAPI __dyn_tls_init(PVOID, DWORD dwReason, LPVOID)
 #pragma section(".CRT$XTA", long, read)
 #pragma section(".CRT$XTZ", long, read)
 #pragma comment(linker, "/merge:.CRT=.rdata")
-extern "C" __declspec(allocate(".CRT$XCA")) const _PVFV __xc_a = 0;
-extern "C" __declspec(allocate(".CRT$XCZ")) const _PVFV __xc_z = 0;
-extern "C" __declspec(allocate(".CRT$XIA")) const _PVFV __xi_a = 0;
-extern "C" __declspec(allocate(".CRT$XIZ")) const _PVFV __xi_z = 0;
-extern "C" __declspec(allocate(".CRT$XPA")) const _PVFV __xp_a = 0;
-extern "C" __declspec(allocate(".CRT$XPZ")) const _PVFV __xp_z = 0;
-extern "C" __declspec(allocate(".CRT$XTA")) const _PVFV __xt_a = 0;
-extern "C" __declspec(allocate(".CRT$XTZ")) const _PVFV __xt_z = 0;
+extern "C" __declspec(allocate(".CRT$XCA")) const _PVFV __xc_a[] = {};
+extern "C" __declspec(allocate(".CRT$XCZ")) const _PVFV __xc_z[] = {};
+extern "C" __declspec(allocate(".CRT$XIA")) const _PVFV __xi_a[] = {};
+extern "C" __declspec(allocate(".CRT$XIZ")) const _PVFV __xi_z[] = {};
+extern "C" __declspec(allocate(".CRT$XPA")) const _PVFV __xp_a[] = {};
+extern "C" __declspec(allocate(".CRT$XPZ")) const _PVFV __xp_z[] = {};
+extern "C" __declspec(allocate(".CRT$XTA")) const _PVFV __xt_a[] = {};
+extern "C" __declspec(allocate(".CRT$XTZ")) const _PVFV __xt_z[] = {};
 //------------------------------------------------------------------------------
-static void _initterm(const _PVFV* ppfn, const _PVFV* end)
+static void _initterm(_PVFV const* const first, _PVFV const* const last)
 {
-    do
+    for (_PVFV const* it = first; it != last; ++it)
     {
-        if (_PVFV pfn = *++ppfn)
-        {
-            pfn();
-        }
-    } while (ppfn < end);
+        if (*it == nullptr)
+            continue;
+
+        (**it)();
+    }
 }
 //------------------------------------------------------------------------------
 extern "C" BOOL WINAPI _DllMainCRTStartup(HANDLE handle, DWORD reason, LPVOID preserved)
@@ -101,13 +104,13 @@ extern "C" BOOL WINAPI _DllMainCRTStartup(HANDLE handle, DWORD reason, LPVOID pr
     switch (reason)
     {
     case DLL_PROCESS_ATTACH:
-        _initterm(&__xi_a, &__xi_z);
-        _initterm(&__xc_a, &__xc_z);
+        _initterm(__xi_a, __xi_z);
+        _initterm(__xc_a, __xc_z);
         break;
 
     case DLL_PROCESS_DETACH:
-        _initterm(&__xp_a, &__xp_z);
-        _initterm(&__xt_a, &__xt_z);
+        _initterm(__xp_a, __xp_z);
+        _initterm(__xt_a, __xt_z);
         break;
 
     case DLL_THREAD_ATTACH:
@@ -127,8 +130,7 @@ extern "C" void WinMainCRTStartup()
     GetStartupInfoA(&startupInfo);
     int showWindowMode = startupInfo.dwFlags & STARTF_USESHOWWINDOW ? startupInfo.wShowWindow : SW_SHOWDEFAULT;
     int result = WinMain((HINSTANCE)&__ImageBase, NULL, GetCommandLineA(), showWindowMode);
-    _DllMainCRTStartup(NULL, DLL_PROCESS_DETACH, NULL);
-    TerminateProcess(GetCurrentProcess(), result);
+    exit(result);
 }
 #endif
 //------------------------------------------------------------------------------
