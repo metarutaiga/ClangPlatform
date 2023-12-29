@@ -60,6 +60,7 @@ OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS
 OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_HAS_NO_VENDOR_AVAILABILITY_ANNOTATIONS
 OTHER_CPLUSPLUSFLAGS = $(inherited) -Wno-c++11-narrowing
 
+OTHER_LDFLAGS = $(inherited) -Wno-unused-command-line-argument
 OTHER_LDFLAGS[arch=arm] = $(inherited) -target thumbv7a-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME) -Wl,divide.obj,fptoi64.obj,helpexcept.obj,i64tofp.obj
 OTHER_LDFLAGS[arch=arm64] = $(inherited) -target aarch64-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME)
 OTHER_LDFLAGS[arch=x86] = $(inherited) -target i686-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME) -Wl,atlssup.obj,int64.lib
