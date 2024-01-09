@@ -48,7 +48,7 @@ LINK_LIBRARY_NAME = $(inherited) -Wl,api-ms-win-crt-stdio-l1-1-0.lib
 LINK_LIBRARY_NAME = $(inherited) -Wl,api-ms-win-crt-string-l1-1-0.lib
 LINK_LIBRARY_NAME = $(inherited) -Wl,api-ms-win-crt-time-l1-1-0.lib
 LINK_LIBRARY_NAME = $(inherited) -Wl,api-ms-win-crt-utility-l1-1-0.lib
-LINK_LIBRARY_NAME = $(inherited) -Wl,chkstk.obj,std_type_info_static.obj,oldnames.lib,kernel32.lib,user32.lib,winmm.lib,imm32.lib,gdi32.lib,dwmapi.lib
+LINK_LIBRARY_NAME = $(inherited) -Wl,chkstk.obj,std_type_info_static.obj,oldnames.lib,kernel32.lib,user32.lib,winmm.lib,imm32.lib,gdi32.lib,dwmapi.lib,shell32.lib
 
 OTHER_CFLAGS = $(inherited) -fdata-sections -ffunction-sections -fno-threadsafe-statics
 OTHER_CFLAGS = $(inherited) -g -gcodeview -GS- -D_CRT_USE_BUILTIN_OFFSETOF -D_LIBCPP_NO_AUTO_LINK -fms-compatibility-version=19
