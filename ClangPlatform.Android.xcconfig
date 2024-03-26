@@ -25,6 +25,7 @@ PLATFORM_TARGET[arch=riscv32] = riscv32-linux-android
 PLATFORM_TARGET[arch=riscv64] = riscv64-linux-android
 PLATFORM_TARGET[arch=x86] = i686-linux-android
 PLATFORM_TARGET[arch=x86_64] = x86_64-linux-android
+PLATFORM_TARGET[arch=x86_64_v5] = x86_64-linux-android
 
 HEADER_SEARCH_PATHS = $(inherited) /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1
 
@@ -38,6 +39,7 @@ OTHER_CFLAGS[arch=riscv32] = $(inherited) -target riscv32-linux-android --sysroo
 OTHER_CFLAGS[arch=riscv64] = $(inherited) -target riscv64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android -menable-experimental-extensions -march=rv64gcv0p10 -mno-relax -I$CLANG_PLATFORM_DIR/linux-android/usr/include -I$CLANG_PLATFORM_DIR/linux-android/usr/include/riscv64-linux-android
 OTHER_CFLAGS[arch=x86] = $(inherited) -target i686-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android
 OTHER_CFLAGS[arch=x86_64] = $(inherited) -target x86_64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android
+OTHER_CFLAGS[arch=x86_64_v5] = $(inherited) -target x86_64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android -mapxf
 OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS
 OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_HAS_NO_VENDOR_AVAILABILITY_ANNOTATIONS
 
@@ -51,7 +53,8 @@ OTHER_LDFLAGS[arch=riscv32] = $(inherited) -target riscv32-linux-android --sysro
 OTHER_LDFLAGS[arch=riscv64] = $(inherited) -target riscv64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-riscv64
 OTHER_LDFLAGS[arch=x86] = $(inherited) -target i686-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-x86 -lcompiler_rt
 OTHER_LDFLAGS[arch=x86_64] = $(inherited) -target x86_64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-x86_64
+OTHER_LDFLAGS[arch=x86_64_v5] = $(inherited) -target x86_64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-x86_64
 
-ARCHS = arm arm64 mips mips64 riscv32 riscv64 x86 x86_64
-VALID_ARCHS = arm arm64 mips mips64 riscv32 riscv64 x86 x86_64
-EXCLUDED_ARCHS = arm mips mips64 riscv32 riscv64 x86 x86_64
+ARCHS = arm arm64 mips mips64 riscv32 riscv64 x86 x86_64 x86_64_v5
+VALID_ARCHS = arm arm64 mips mips64 riscv32 riscv64 x86 x86_64 x86_64_v5
+EXCLUDED_ARCHS = arm mips mips64 riscv32 riscv64 x86 x86_64 x86_64_v5
