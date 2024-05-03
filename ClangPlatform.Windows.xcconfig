@@ -51,7 +51,10 @@ LINK_LIBRARY_NAME = $(inherited) -Wl,api-ms-win-crt-utility-l1-1-0.lib
 LINK_LIBRARY_NAME = $(inherited) -Wl,chkstk.obj,oldnames.lib,kernel32.lib,user32.lib,winmm.lib,imm32.lib,gdi32.lib,dwmapi.lib,shell32.lib
 
 OTHER_CFLAGS = $(inherited) -fdata-sections -ffunction-sections -fno-threadsafe-statics
-OTHER_CFLAGS = $(inherited) -g -gcodeview -GS- -D_CRT_USE_BUILTIN_OFFSETOF -D_LIBCPP_NO_AUTO_LINK -fms-compatibility-version=19
+OTHER_CFLAGS = $(inherited) -g -gcodeview -GS- -fms-compatibility-version=19
+OTHER_CFLAGS = $(inherited) -D_CRT_USE_BUILTIN_OFFSETOF
+OTHER_CFLAGS = $(inherited) -D_INC_SETJMPEX
+OTHER_CFLAGS = $(inherited) -D_LIBCPP_NO_AUTO_LINK
 OTHER_CFLAGS[arch=arm] = $(inherited) -target thumbv7a-pc-windows-msvc
 OTHER_CFLAGS[arch=arm64] = $(inherited) -target aarch64-pc-windows-msvc
 OTHER_CFLAGS[arch=x86] = $(inherited) -target i686-pc-windows-msvc -D_CRT_STDIO_INLINE="__declspec(noinline) __inline" -fmax-type-align=8
@@ -66,7 +69,21 @@ OTHER_LDFLAGS[arch=arm64] = $(inherited) -target aarch64-pc-windows-msvc -v -Wl,
 OTHER_LDFLAGS[arch=x86] = $(inherited) -target i686-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME) -Wl,atlssup.obj,int64.lib
 OTHER_LDFLAGS[arch=x86_64] = $(inherited) -target x86_64-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME)
 
-WARNING_CFLAGS = $(inherited) -Wno-comment -Wno-expansion-to-defined -Wno-ignored-attributes -Wno-ignored-pragma-intrinsic -Wno-macro-redefined -Wno-microsoft-cast -Wno-microsoft-enum-forward-reference -Wno-nonportable-include-path -Wno-pragma-pack -Wno-unreachable-code -Wno-unused-command-line-argument -Wno-unused-function -Wno-unused-variable -Wno-unused-value
+WARNING_CFLAGS = $(inherited) -Wno-comment
+WARNING_CFLAGS = $(inherited) -Wno-expansion-to-defined
+WARNING_CFLAGS = $(inherited) -Wno-ignored-attributes
+WARNING_CFLAGS = $(inherited) -Wno-ignored-pragma-intrinsic
+WARNING_CFLAGS = $(inherited) -Wno-macro-redefined
+WARNING_CFLAGS = $(inherited) -Wno-microsoft-anon-tag
+WARNING_CFLAGS = $(inherited) -Wno-microsoft-cast
+WARNING_CFLAGS = $(inherited) -Wno-microsoft-enum-forward-reference
+WARNING_CFLAGS = $(inherited) -Wno-nonportable-include-path
+WARNING_CFLAGS = $(inherited) -Wno-pragma-pack
+WARNING_CFLAGS = $(inherited) -Wno-unreachable-code
+WARNING_CFLAGS = $(inherited) -Wno-unused-command-line-argument
+WARNING_CFLAGS = $(inherited) -Wno-unused-function
+WARNING_CFLAGS = $(inherited) -Wno-unused-variable
+WARNING_CFLAGS = $(inherited) -Wno-unused-value
 
 ARCHS = arm arm64 x86 x86_64
 VALID_ARCHS = arm arm64 x86 x86_64

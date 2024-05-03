@@ -220,13 +220,13 @@ typedef HANDLE              LOCALHANDLE;
 #endif
 #ifndef _MAC
 #ifdef _WIN64
-typedef INT_PTR (FAR WINAPI *FARPROC)();
-typedef INT_PTR (NEAR WINAPI *NEARPROC)();
-typedef INT_PTR (WINAPI *PROC)();
+typedef INT_PTR (FAR WINAPI *FARPROC)(void);
+typedef INT_PTR (NEAR WINAPI *NEARPROC)(void);
+typedef INT_PTR (WINAPI *PROC)(void);
 #else
-typedef int (FAR WINAPI *FARPROC)();
-typedef int (NEAR WINAPI *NEARPROC)();
-typedef int (WINAPI *PROC)();
+typedef int (FAR WINAPI *FARPROC)(void);
+typedef int (NEAR WINAPI *NEARPROC)(void);
+typedef int (WINAPI *PROC)(void);
 #endif  // _WIN64
 #else
 typedef int (CALLBACK *FARPROC)();
