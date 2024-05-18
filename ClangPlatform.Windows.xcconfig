@@ -21,6 +21,7 @@ PLATFORM_TARGET[arch=arm] = thumbv7a-pc-windows-msvc
 PLATFORM_TARGET[arch=arm64] = aarch64-pc-windows-msvc
 PLATFORM_TARGET[arch=x86] = i686-pc-windows-msvc
 PLATFORM_TARGET[arch=x86_64] = x86_64-pc-windows-msvc
+PLATFORM_TARGET[arch=x86_64_v5] = x86_64-pc-windows-msvc
 
 HEADER_SEARCH_PATHS = $(inherited) /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1
 HEADER_SEARCH_PATHS = $(inherited) $CLANG_PLATFORM_DIR/windows-msvc/include
@@ -31,6 +32,7 @@ LIBRARY_SEARCH_PATH[arch=arm] = $(inherited) -Wl,-libpath:$CLANG_PLATFORM_DIR/wi
 LIBRARY_SEARCH_PATH[arch=arm64] = $(inherited) -Wl,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/arm64,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/arm64/ucrt,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/arm64/um
 LIBRARY_SEARCH_PATH[arch=x86] = $(inherited) -Wl,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x86,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x86/ucrt,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x86/um
 LIBRARY_SEARCH_PATH[arch=x86_64] = $(inherited) -Wl,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64/ucrt,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64/um
+LIBRARY_SEARCH_PATH[arch=x86_64_v5] = $(inherited) -Wl,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64/ucrt,-libpath:$CLANG_PLATFORM_DIR/windows-msvc/lib/x64/um
 LINK_DEBUG_PATH[config=Debug] = -Wl,-debug,-pdb:$(TARGET_BUILD_DIR)/$(PROJECT_NAME).pdb
 LINK_DEBUG_PATH[config=Release] = -Wl,-debug,-pdb:$(TARGET_BUILD_DIR)/$(PROJECT_NAME).pdb,-opt:ref,-opt:icf
 LINK_LIBRARY_NAME = $(inherited) -Wl,api-ms-win-crt-conio-l1-1-0.lib
@@ -51,7 +53,7 @@ LINK_LIBRARY_NAME = $(inherited) -Wl,api-ms-win-crt-utility-l1-1-0.lib
 LINK_LIBRARY_NAME = $(inherited) -Wl,chkstk.obj,oldnames.lib,kernel32.lib,user32.lib,winmm.lib,imm32.lib,gdi32.lib,dwmapi.lib,shell32.lib
 
 OTHER_CFLAGS = $(inherited) -fdata-sections -ffunction-sections -fno-threadsafe-statics
-OTHER_CFLAGS = $(inherited) -g -gcodeview -GS- -fms-compatibility-version=19
+OTHER_CFLAGS = $(inherited) -g -gcodeview -fno-stack-protector -fms-compatibility-version=19
 OTHER_CFLAGS = $(inherited) -D_CRT_USE_BUILTIN_OFFSETOF
 OTHER_CFLAGS = $(inherited) -D_INC_SETJMPEX
 OTHER_CFLAGS = $(inherited) -D_LIBCPP_NO_AUTO_LINK
@@ -59,6 +61,7 @@ OTHER_CFLAGS[arch=arm] = $(inherited) -target thumbv7a-pc-windows-msvc
 OTHER_CFLAGS[arch=arm64] = $(inherited) -target aarch64-pc-windows-msvc
 OTHER_CFLAGS[arch=x86] = $(inherited) -target i686-pc-windows-msvc -D_CRT_STDIO_INLINE="__declspec(noinline) __inline" -fmax-type-align=8
 OTHER_CFLAGS[arch=x86_64] = $(inherited) -target x86_64-pc-windows-msvc
+OTHER_CFLAGS[arch=x86_64_v5] = $(inherited) -target x86_64-pc-windows-msvc -mapxf
 OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS
 OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_HAS_NO_VENDOR_AVAILABILITY_ANNOTATIONS
 OTHER_CPLUSPLUSFLAGS = $(inherited) -Wno-c++11-narrowing
@@ -68,6 +71,7 @@ OTHER_LDFLAGS[arch=arm] = $(inherited) -target thumbv7a-pc-windows-msvc -v -Wl,-
 OTHER_LDFLAGS[arch=arm64] = $(inherited) -target aarch64-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME)
 OTHER_LDFLAGS[arch=x86] = $(inherited) -target i686-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME) -Wl,atlssup.obj,int64.lib
 OTHER_LDFLAGS[arch=x86_64] = $(inherited) -target x86_64-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME)
+OTHER_LDFLAGS[arch=x86_64_v5] = $(inherited) -target x86_64-pc-windows-msvc -v -Wl,-nodefaultlib $(LIBRARY_SEARCH_PATH) $(LINK_DEBUG_PATH) $(LINK_LIBRARY_NAME)
 
 WARNING_CFLAGS = $(inherited) -Wno-comment
 WARNING_CFLAGS = $(inherited) -Wno-expansion-to-defined
@@ -85,6 +89,6 @@ WARNING_CFLAGS = $(inherited) -Wno-unused-function
 WARNING_CFLAGS = $(inherited) -Wno-unused-variable
 WARNING_CFLAGS = $(inherited) -Wno-unused-value
 
-ARCHS = arm arm64 x86 x86_64
-VALID_ARCHS = arm arm64 x86 x86_64
-EXCLUDED_ARCHS = arm arm64 x86
+ARCHS = arm arm64 x86 x86_64 x86_64_v5
+VALID_ARCHS = arm arm64 x86 x86_64 x86_64_v5
+EXCLUDED_ARCHS = arm arm64 x86 x86_64_v5
