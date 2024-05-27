@@ -44,6 +44,8 @@ OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS
 OTHER_CPLUSPLUSFLAGS = $(inherited) -D_LIBCPP_HAS_NO_VENDOR_AVAILABILITY_ANNOTATIONS
 
 OTHER_LDFLAGS = $(inherited) -shared -fPIC -landroid -llog
+OTHER_LDFLAGS = $(inherited) -Wno-unused-command-line-argument
+OTHER_LDFLAGS = $(inherited) -Wl,--unresolved-symbols=report-all
 OTHER_LDFLAGS[config=Release] = $(inherited) -Wl,--gc-sections -Wl,--strip-all
 OTHER_LDFLAGS[arch=arm] = $(inherited) -target arm-linux-androideabi --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-arm -lcompiler_rt
 OTHER_LDFLAGS[arch=arm64] = $(inherited) -target aarch64-linux-android --sysroot=$CLANG_PLATFORM_DIR/linux-android/arch-arm64
